@@ -17,8 +17,8 @@ running = True
 font = pygame.font.SysFont("impact", 32)
 
 dt = 0
-player_step = 100
-ball_step = 200
+player_step = 150
+ball_step = 300
 score = 0
 lives = 3
 
@@ -49,6 +49,17 @@ while running:
     for block in blocks:
         if ball_pos.colliderect(block[0], block[1], 35, 10):
             blocks.remove(block)
+            score += 10
+        if len(blocks) == 0:
+            x = 5
+            y = 25
+            for _ in range(5):
+                for _ in range(10):
+                    x += 40
+                    blocks.append((x, y))
+                y += 25
+                x = 5
+            score += 250
             
     for block in blocks:
         pygame.draw.rect(screen, "black", (block[0], block[1], 35, 10), 35)
@@ -65,13 +76,23 @@ while running:
     screen.blit(lives_text, (WIDTH - 100, HEIGHT - 40))
     
     if ball_pos.centery >= HEIGHT:
+        player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 38, 8)
         ball_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
         ball_ang = 0
         lives -= 1
         if lives < 0:
-            running = False
+            lives = 3
+            score = 0
+            x = 5
+            y = 25
+            for _ in range(5):
+                for _ in range(10):
+                    x += 40
+                    blocks.append((x, y))
+                y += 25
+                x = 5
     
     if ball_pos.centerx <= 0:
         ball_dir_x *= -1
