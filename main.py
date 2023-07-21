@@ -4,6 +4,7 @@ import random
 TITLE = 'Breaker'
 WIDTH = 480
 HEIGHT = 640
+FPS = 60
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -32,16 +33,20 @@ ball_dir_x = 1
 ball_dir_y = 1
 ball_ang = 0
 
-blocks_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
-blocks = []
-x = 5
-y = 25
-for _ in range(5):
-    for _ in range(10):
-        x += 40
-        blocks.append((x, y))
-    y += 25
+brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+def create_bricks() -> list:
+    level = []
     x = 5
+    y = 25
+    for _ in range(5):
+        for _ in range(10):
+            x += 40
+            level.append((x, y))
+        y += 25
+        x = 5
+    return level
+
+bricks = create_bricks()
 
 while running:
     for event in pygame.event.get():
@@ -51,28 +56,21 @@ while running:
     screen.fill("grey")
     screen.blit(background_image, (0, 0))
     
-    for block in blocks:
+    for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 35, 10):
-            blocks.remove(block)
+            bricks.remove(block)
             score += 10
-        if len(blocks) == 0:
-            x = 5
-            y = 25
-            for _ in range(5):
-                for _ in range(10):
-                    x += 40
-                    blocks.append((x, y))
-                y += 25
-                x = 5
+        if len(bricks) == 0:
+            bricks = create_bricks()
             score += 250
-            blocks_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+            brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
             
-    for block in blocks:
+    for block in bricks:
         pygame.draw.rect(screen, "black", (block[0], block[1], 35, 10), 35)
-        pygame.draw.rect(screen, blocks_color, (block[0], block[1], 32, 8), 35)
+        pygame.draw.rect(screen, brick_color, (block[0], block[1], 32, 8), 35)
         
-    pygame.draw.rect(screen, "black", (player_pos.x, player_pos.y, 70, 10), 40)
-    pygame.draw.rect(screen, "orange", player_pos, 38)
+    pygame.draw.rect(screen, "black", (player_pos.x, player_pos.y, 70, 10), 20)
+    pygame.draw.rect(screen, "orange", player_pos, 17)
     
     screen.blit(ball_image, ball_pos)
     
@@ -91,15 +89,8 @@ while running:
         if lives < 0:
             lives = 3
             score = 0
-            x = 5
-            y = 25
-            for _ in range(5):
-                for _ in range(10):
-                    x += 40
-                    blocks.append((x, y))
-                y += 25
-                x = 5
-            blocks_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+            bricks = create_bricks()
+            brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
     
     if ball_pos.centerx <= 0:
         ball_dir_x *= -1
@@ -112,9 +103,9 @@ while running:
     elif ball_pos.colliderect(player_pos):
         ball_dir_y *= -1
         if ball_pos.centerx < player_pos.centerx:
-            ball_ang -= dt * abs(ball_pos.centerx - player_pos.centerx)
+            ball_ang -= dt * ball_step * (player_pos.centerx - ball_pos.centerx)
         elif ball_pos.centerx > player_pos.centerx:
-            ball_ang += dt * abs(ball_pos.centerx - player_pos.centerx)
+            ball_ang += dt * ball_step * (ball_pos.centerx - player_pos.centerx)
     
     ball_pos.centery += ball_step * dt * ball_dir_y
     ball_pos.centerx += ball_ang * dt * ball_dir_x
@@ -128,10 +119,7 @@ while running:
         if player_pos.centerx + player_step * dt <= WIDTH:
             player_pos.x += player_step * dt
 
-    # flip() the display to put your work on screen
-    pygame.display.flip()
-
-    # limits FPS to 60
-    dt = clock.tick(60) / 1000
+    pygame.display.flip() # bufferswap
+    dt = clock.tick(FPS) / 1000 # limit fps
 
 pygame.quit()
