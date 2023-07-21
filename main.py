@@ -82,7 +82,7 @@ while running:
     screen.blit(lives_text, (WIDTH - 100, HEIGHT - 40))
     
     if ball_pos.centery >= HEIGHT:
-        player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 38, 8)
+        player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 68, 8)
         ball_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
