@@ -10,4 +10,5 @@ Hit the ball and do not let it fall!
 - a/w keys move paddle left
 - d/s keys move paddle right
 
-![first_screen](first_screen.png)
+Gameplay gif:
+![breaker gif](BreakerGif.gif)
