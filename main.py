@@ -29,7 +29,15 @@ ball_dir_x = 1
 ball_dir_y = 1
 ball_ang = 0
 
-level1 = [[True]*10] * 5
+blocks = []
+x = 5
+y = 25
+for _ in range(5):
+    for _ in range(10):
+        x += 40
+        blocks.append((x, y))
+    y += 25
+    x = 5
 
 while running:
     for event in pygame.event.get():
@@ -38,17 +46,14 @@ while running:
 
     screen.fill("grey")
     
-    x = 5
-    y = 25
-    block_col = []
-    for layer in level1:
-        for cell in layer:
-            x += 40
-            pygame.draw.rect(screen, "black", (x, y, 35, 10), 35)
-            pygame.draw.rect(screen, "pink", (x, y, 32, 8), 35)    
-        y += 25
-        x = 5
-    
+    for block in blocks:
+        if ball_pos.colliderect(block[0], block[1], 35, 10):
+            blocks.remove(block)
+            
+    for block in blocks:
+        pygame.draw.rect(screen, "black", (block[0], block[1], 35, 10), 35)
+        pygame.draw.rect(screen, "pink", (block[0], block[1], 32, 8), 35)
+        
     pygame.draw.rect(screen, "black", (player_pos.x, player_pos.y, 40, 10), 40)
     pygame.draw.rect(screen, "orange", player_pos, 38)
     
