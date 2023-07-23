@@ -137,13 +137,13 @@ while running:
     if ball_pos.colliderect(player_pos):
         ball_dir_y *= -1
         if ball_pos.centerx < player_pos.centerx:
-            ball_ang -= dt * ball_step * (player_pos.centerx - ball_pos.centerx)
+            ball_ang = -(player_pos.centerx - ball_pos.centerx)
         elif ball_pos.centerx > player_pos.centerx:
-            ball_ang += 1.25 * dt * ball_step * (ball_pos.centerx - player_pos.centerx)
-    
+            ball_ang = (ball_pos.centerx - player_pos.centerx)
     # --- BALL UPDATE ---
-    ball_pos.centery += int(ball_step * dt * ball_dir_y)
-    ball_pos.centerx += int(ball_ang * dt * ball_dir_x)
+    y = ball_step * dt * ball_dir_y
+    x = 5 * ball_ang * dt * ball_dir_x
+    ball_pos = ball_pos.move(x, y)
     
     # --- INPUT ---
     keys = pygame.key.get_pressed()
