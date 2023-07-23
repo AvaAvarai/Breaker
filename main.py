@@ -10,16 +10,14 @@ screen: pygame.surface = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Breaker')
 
 background_image = pygame.image.load('background.jpg')
-ball_image = pygame.image.load('red_ball.png')
+ball_image = pygame.image.load('ball.png')
 pygame.display.set_icon(ball_image)
 
 clock = pygame.time.Clock()
 running = True
 
-fg_font: pygame.font.Font = pygame.font.SysFont("impact", 28)
-fg_font_color = (0, 255, 0)
-bg_font: pygame.font.Font = pygame.font.SysFont("impact", 28)
-bg_font_color = (0, 55, 0)
+fg_font: pygame.font.Font = pygame.font.SysFont("arial", 28)
+fg_font_color = (255, 0, 0)
 
 dt = 0
 player_step = 200
@@ -56,22 +54,17 @@ while running:
             running = False
 
     screen.fill("grey")
-    screen.blit(background_image, (0, 0))
+    screen.blit(background_image, (0, 40))
     
     screen.blit(ball_image, ball_pos)
     
-    pygame.draw.rect(screen, (175, 175, 175), pygame.Rect(0, HEIGHT - 34, WIDTH, 40))
-    pygame.draw.rect(screen, (75, 75, 75), pygame.Rect(0, HEIGHT - 40, WIDTH, 6))
-    
-    score_text = bg_font.render("Score: " + str(score), True, bg_font_color)
-    screen.blit(score_text, (5 + 2, HEIGHT - 35 + 2))
-    lives_text = bg_font.render("Lives: " + str(lives), True, bg_font_color)
-    screen.blit(lives_text, (WIDTH - 90 + 2, HEIGHT - 35 + 2))
+    pygame.draw.rect(screen, (50, 50, 125), pygame.Rect(0, 34, WIDTH, 6))
+    pygame.draw.rect(screen, (175, 175, 175), pygame.Rect(0, 0, WIDTH, 34))
     
     score_text = fg_font.render("Score: " + str(score), True, fg_font_color)
-    screen.blit(score_text, (5, HEIGHT - 35))
+    screen.blit(score_text, (WIDTH / 4, 0))
     lives_text = fg_font.render("Lives: " + str(lives), True, fg_font_color)
-    screen.blit(lives_text, (WIDTH - 90, HEIGHT - 35))
+    screen.blit(lives_text, (WIDTH - WIDTH / 3, 0))
     
     for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 35, 15):
@@ -92,8 +85,8 @@ while running:
         pygame.draw.rect(screen, "black", (block[0]-1, block[1]-1, 35, 15))
         pygame.draw.rect(screen, brick_color, (block[0], block[1], 33, 13))
         
-    pygame.draw.rect(screen, "black", (player_pos.x, player_pos.y, 70, 10), 20)
-    pygame.draw.rect(screen, "orange", (player_pos.x+2, player_pos.y, 66, 10), 16)
+    pygame.draw.rect(screen, "orange", (player_pos.x, player_pos.y, 70, 10), 20)
+    pygame.draw.rect(screen, "grey", (player_pos.x+2, player_pos.y, 66, 10), 16)
     
     if ball_pos.centery >= HEIGHT: # dead
         player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 8)
