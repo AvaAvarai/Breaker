@@ -152,6 +152,8 @@ while running:
     elif keys[pygame.K_d] or keys[pygame.K_s] or keys[pygame.K_RIGHT] or keys[pygame.K_DOWN]: # right
         if player_pos.centerx + (player_step * dt) <= WIDTH:
             player_pos = player_pos.move((player_step * dt, 0))
+    elif keys[pygame.K_ESCAPE]:
+        running = False
     
     # --- DRAW FRAME ---
     screen.blit(frame_image, (0, UI_HEIGHT))
