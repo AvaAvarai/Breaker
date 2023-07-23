@@ -94,6 +94,8 @@ while running:
                 ball_dir_x = 1
                 ball_dir_y = 1
                 ball_ang = 0
+            if score % 2500 == 0:
+                lives += 1
 
     # --- BRICK DRAW ---
     for block in bricks:
