@@ -37,14 +37,34 @@ ball_dir_x = 1
 ball_dir_y = 1
 ball_ang = 0
 
-brick_color = [0, 0, 0]
+def color_dist(color1: tuple[int, int, int], color2: tuple[int, int, int]) -> int:
+    distance: int = 0
+    for index, c1 in enumerate(color1):
+        c2 = color2[index]
+        distance += (c2 - c1) ** 2
+    return distance ** 0.5
+
+def gen_colors(n: int) -> list[tuple[int, int, int]]:
+    variance: int = 175 # out of 255
+    colors: list[tuple[int, int, int]] = []
+    while len(colors) != n:
+        bad = False
+        new_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        for color in colors:
+            if color_dist(color, new_color) < variance:
+                bad = True
+        if not bad:
+            colors.append(new_color)
+    return colors
+
 def create_bricks() -> list:
+    colors = gen_colors(6)
     level = []
     x = 7
     y = UI_HEIGHT + 50
-    for _ in range(6):
-        brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
-        for _ in range(13):
+    for i in range(6): # y
+        brick_color = colors[i]
+        for _ in range(13): # x
             density = 1
             if random.randrange(0, 5) == 0:
                 density = 2 
