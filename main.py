@@ -13,6 +13,7 @@ pygame.display.set_caption('Breaker')
 background_image = pygame.image.load('background.jpg')
 frame_image = pygame.image.load('frame.png')
 ball_image = pygame.image.load('ball.png')
+paddle_image = pygame.image.load('paddle.png')
 pygame.display.set_icon(ball_image)
 
 clock = pygame.time.Clock()
@@ -109,8 +110,7 @@ while running:
 
     # --- PLAYER/BALL DRAW ---
     screen.blit(ball_image, ball_pos)
-    pygame.draw.rect(screen, "orange", (player_pos.x, player_pos.y, 70, 10), 20)
-    pygame.draw.rect(screen, "grey", (player_pos.x+2, player_pos.y, 66, 10), 16)
+    screen.blit(paddle_image, player_pos)
 
     # --- BALL PHYSICS ---
     if ball_pos.centery >= HEIGHT: # dead
