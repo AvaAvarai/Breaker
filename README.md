@@ -1,6 +1,7 @@
 # Breaker
 Brick-breaker game inspired by Arkanoid written in Python using the PyGame library.  
 Completing a level gets extra points, dense bricks take two hits to break through.  
+Winning 2500, 5000, 7500, ... points will earn an extra life.  
 
 ![Gameplay Demo](gameplay.png)
 
