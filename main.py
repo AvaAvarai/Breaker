@@ -39,15 +39,15 @@ ball_ang = 0
 brick_color = [0, 0, 0]
 def create_bricks() -> list:
     level = []
-    x = -22
+    x = 7
     y = UI_HEIGHT + 50
     for _ in range(6):
         brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
         for _ in range(13):
-            x += 35
             level.append((x, y, brick_color))
-        y += 15
-        x = -22
+            x += 36
+        y += 17
+        x = 7
     return level
 
 bricks = create_bricks()
@@ -76,7 +76,7 @@ while running:
     
     # --- BRICK COLLIDE ---
     for block in bricks:
-        if ball_pos.colliderect(block[0], block[1], 35, 15):
+        if ball_pos.colliderect(block[0], block[1], 36, 15):
             bricks.remove(block)
             score += 10
             ball_dir_y *= -1
@@ -92,8 +92,8 @@ while running:
     # --- BRICK DRAW ---
     for block in bricks:
         brick_color = block[2]
-        pygame.draw.rect(screen, "black", (block[0]-1, block[1]-1, 35, 15))
-        pygame.draw.rect(screen, brick_color, (block[0], block[1], 33, 13))
+        pygame.draw.rect(screen, "black", (block[0]-1, block[1]-1, 36, 17))
+        pygame.draw.rect(screen, brick_color, (block[0], block[1], 34, 15))
 
     # --- PLAYER/BALL DRAW ---
     screen.blit(ball_image, ball_pos)
@@ -113,9 +113,9 @@ while running:
             score = 0
             bricks = create_bricks()
     
-    if ball_pos.centerx < 12:
+    if ball_pos.centerx < 15:
         ball_dir_x *= -1
-    elif ball_pos.centerx > WIDTH - 12:
+    elif ball_pos.centerx > WIDTH - 15:
         ball_dir_x *= -1
     
     if ball_pos.top <= UI_HEIGHT + 10:
@@ -127,7 +127,7 @@ while running:
         if ball_pos.centerx < player_pos.centerx:
             ball_ang -= dt * ball_step * (player_pos.centerx - ball_pos.centerx)
         elif ball_pos.centerx > player_pos.centerx:
-            ball_ang += dt * ball_step * (ball_pos.centerx - player_pos.centerx)
+            ball_ang += 1.25 * dt * ball_step * (ball_pos.centerx - player_pos.centerx)
     
     # --- BALL UPDATE ---
     ball_pos.centery += int(ball_step * dt * ball_dir_y)
