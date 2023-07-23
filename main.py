@@ -4,7 +4,7 @@ import random
 FPS = 60
 WIDTH = 480
 HEIGHT = 640
-UI_HEIGHT = 60
+UI_HEIGHT = 55
 
 pygame.init()
 screen: pygame.surface.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -62,9 +62,8 @@ while running:
     screen.fill("grey")
     screen.blit(background_image, (0, UI_HEIGHT))
 
-    pygame.draw.rect(screen, (50, 50, 125), pygame.Rect(0, UI_HEIGHT - 6, WIDTH, 6)) # dark-blue bar
-    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, WIDTH, UI_HEIGHT - 6)) # UI
-    
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, WIDTH, UI_HEIGHT)) # UI
+
     lives_text = fg_font.render("Lives", True, fg_font_color1)
     screen.blit(lives_text, (WIDTH / 3 - len("Lives") / 3, 0))
     lives_text = fg_font.render(str(lives), True, fg_font_color2)
