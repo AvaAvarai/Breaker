@@ -44,7 +44,10 @@ def create_bricks() -> list:
     for _ in range(6):
         brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
         for _ in range(13):
-            level.append((x, y, brick_color))
+            density = 1
+            if random.randrange(0, 5) == 0:
+                density = 2 
+            level.append([x, y, brick_color, density])
             x += 36
         y += 17
         x = 7
@@ -77,7 +80,10 @@ while running:
     # --- BRICK COLLIDE ---
     for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 36, 15):
-            bricks.remove(block)
+            if block[3] == 1:
+                bricks.remove(block)
+            else:
+                block[3] -= 1
             score += 10
             ball_dir_y *= -1
             if len(bricks) == 0: # new level
@@ -92,8 +98,12 @@ while running:
     # --- BRICK DRAW ---
     for block in bricks:
         brick_color = block[2]
-        pygame.draw.rect(screen, "black", (block[0]-1, block[1]-1, 36, 17))
-        pygame.draw.rect(screen, brick_color, (block[0], block[1], 34, 15))
+        if block[3] == 1:
+            pygame.draw.rect(screen, "black", (block[0]-1, block[1]-1, 36, 17))
+            pygame.draw.rect(screen, brick_color, (block[0], block[1], 34, 15))
+        elif block[3] == 2:
+            pygame.draw.rect(screen, "black", (block[0]-1, block[1]-2, 36, 18))
+            pygame.draw.rect(screen, brick_color, (block[0], block[1], 34, 14))
 
     # --- PLAYER/BALL DRAW ---
     screen.blit(ball_image, ball_pos)
