@@ -30,7 +30,7 @@ ball_step = 350
 score = 0
 lives = 3
 
-player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 8)
+player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
 
 ball_dir_x = 1
@@ -90,7 +90,7 @@ while running:
             if len(bricks) == 0: # new level
                 bricks = create_bricks()
                 score += 250
-                player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 8)
+                player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
                 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
                 ball_dir_x = 1
                 ball_dir_y = 1
@@ -114,7 +114,7 @@ while running:
 
     # --- BALL PHYSICS ---
     if ball_pos.centery >= HEIGHT: # dead
-        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 8)
+        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
         ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
