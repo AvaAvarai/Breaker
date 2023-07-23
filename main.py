@@ -81,6 +81,7 @@ while running:
     # --- BRICK COLLIDE ---
     for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 36, 15):
+            pygame.mixer.Sound.play(pygame.mixer.Sound("ping.mp3"))
             if block[3] == 1:
                 bricks.remove(block)
             else:
@@ -113,7 +114,7 @@ while running:
     screen.blit(paddle_image, player_pos)
 
     # --- BALL PHYSICS ---
-    if ball_pos.centery >= HEIGHT: # dead
+    if ball_pos.centery > HEIGHT: # dead
         player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
         ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
@@ -140,6 +141,7 @@ while running:
             ball_ang = -(player_pos.centerx - ball_pos.centerx)
         elif ball_pos.centerx > player_pos.centerx:
             ball_ang = (ball_pos.centerx - player_pos.centerx)
+            
     # --- BALL UPDATE ---
     y = ball_step * dt * ball_dir_y
     x = 5 * ball_ang * dt * ball_dir_x

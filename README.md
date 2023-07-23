@@ -15,11 +15,13 @@ Hit the ball and do not let it fall!
 - Exit game: escape
 
 ## Goals
-- paddle texture
 - Powerup drops
 - Local highscore store and show
 - Spacebar to start
+- enemies to spawn from center of level floor
+- different level layouts
 
 ## Sources
 [1] PyGame https://www.pygame.org/wiki/GettingStarted  
-[2] Arkanoid Levels http://nick-aschenbach.github.io/blog/2015/04/27/arkanoid-game-levels/
+[2] Arkanoid levels http://nick-aschenbach.github.io/blog/2015/04/27/arkanoid-game-levels/
+[3] Arkanoid gameplay https://youtu.be/Th-Z6QQ5AOQ
