@@ -1,5 +1,8 @@
 .vscode/
 Include/
 Lib/
+build/
+dist/
+libs/
 Scripts/
 pyvenv.cfg

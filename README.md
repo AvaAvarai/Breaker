@@ -23,5 +23,5 @@ Hit the ball and do not let it fall!
 
 ## Sources
 [1] PyGame https://www.pygame.org/wiki/GettingStarted  
-[2] Arkanoid levels http://nick-aschenbach.github.io/blog/2015/04/27/arkanoid-game-levels/
-[3] Arkanoid gameplay https://youtu.be/Th-Z6QQ5AOQ
+[2] Arkanoid levels http://nick-aschenbach.github.io/blog/2015/04/27/arkanoid-game-levels/  
+[3] Arkanoid gameplay https://youtu.be/Th-Z6QQ5AOQ  
