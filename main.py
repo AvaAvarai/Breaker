@@ -126,7 +126,8 @@ while running:
             pygame.draw.rect(screen, "black", (block[0]-1, block[1]-1, 36, 17))
             pygame.draw.rect(screen, brick_color, (block[0], block[1], 34, 15))
         elif block[3] == 2:
-            pygame.draw.rect(screen, "black", (block[0]-1, block[1]-2, 36, 18))
+            pygame.draw.rect(screen, "white", (block[0]-2, block[1]-2, 36, 17))
+            pygame.draw.rect(screen, "black", (block[0]-1, block[1]-1, 36, 17))
             pygame.draw.rect(screen, brick_color, (block[0], block[1], 34, 14))
 
     # --- PLAYER/BALL DRAW ---
