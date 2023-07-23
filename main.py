@@ -1,17 +1,15 @@
 import pygame
 import random
 
-TITLE = 'Breaker'
+FPS = 60
 WIDTH = 480
 HEIGHT = 640
-FPS = 60
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption(TITLE)
+pygame.display.set_caption('Breaker')
 
-background_image = pygame.image.load('digital-texture-blue.jpg')
-
+background_image = pygame.image.load('background.jpg')
 ball_image = pygame.image.load('red_ball.png')
 pygame.display.set_icon(ball_image)
 
@@ -28,8 +26,8 @@ ball_step = 300
 score = 0
 lives = 3
 
-player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 68, 8)
-ball_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT / 2, 8, 8)
+player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 50, 68, 8)
+ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
 
 ball_dir_x = 1
 ball_dir_y = 1
@@ -59,6 +57,7 @@ while running:
 
     screen.fill("grey")
     screen.blit(background_image, (0, 0))
+    pygame.draw.rect(screen, (75, 75, 75), pygame.Rect(0, HEIGHT - 40, WIDTH, 6))
     
     for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 35, 10):
@@ -68,8 +67,8 @@ while running:
         if len(bricks) == 0: # new level
             bricks = create_bricks()
             score += 250
-            player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 68, 8)
-            ball_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT / 2, 8, 8)
+            player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 50, 68, 8)
+            ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
             ball_dir_x = 1
             ball_dir_y = 1
             ball_ang = 0
@@ -95,8 +94,8 @@ while running:
     screen.blit(lives_text, (WIDTH - 100, HEIGHT - 40))
     
     if ball_pos.centery >= HEIGHT: # dead
-        player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 68, 8)
-        ball_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT / 2, 8, 8)
+        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 50, 68, 8)
+        ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
         ball_ang = 0
