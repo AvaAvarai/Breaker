@@ -21,12 +21,12 @@ bg_font = pygame.font.SysFont("impact", 32)
 bg_color = (255, 255, 255)
 
 dt = 0
-player_step = 150
+player_step = 200
 ball_step = 300
 score = 0
 lives = 3
 
-player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 50, 68, 8)
+player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 68, 8)
 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
 
 ball_dir_x = 1
@@ -57,7 +57,21 @@ while running:
 
     screen.fill("grey")
     screen.blit(background_image, (0, 0))
+    
+    screen.blit(ball_image, ball_pos)
+    
+    pygame.draw.rect(screen, (175, 175, 175), pygame.Rect(0, HEIGHT - 34, WIDTH, 40))
     pygame.draw.rect(screen, (75, 75, 75), pygame.Rect(0, HEIGHT - 40, WIDTH, 6))
+    
+    score_text = bg_font.render("Score: " + str(score), True, "black")
+    screen.blit(score_text, (5 + 2, HEIGHT - 40 + 2))
+    lives_text = bg_font.render("Lives: " + str(lives), True, "black")
+    screen.blit(lives_text, (WIDTH - 100 + 2, HEIGHT - 40 + 2))
+    
+    score_text = fg_font.render("Score: " + str(score), True, "green")
+    screen.blit(score_text, (5, HEIGHT - 40))
+    lives_text = fg_font.render("Lives: " + str(lives), True, "green")
+    screen.blit(lives_text, (WIDTH - 100, HEIGHT - 40))
     
     for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 35, 15):
@@ -67,7 +81,7 @@ while running:
         if len(bricks) == 0: # new level
             bricks = create_bricks()
             score += 250
-            player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 50, 68, 8)
+            player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 68, 8)
             ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
             ball_dir_x = 1
             ball_dir_y = 1
@@ -81,20 +95,8 @@ while running:
     pygame.draw.rect(screen, "black", (player_pos.x, player_pos.y, 70, 10), 20)
     pygame.draw.rect(screen, "orange", player_pos, 17)
     
-    screen.blit(ball_image, ball_pos)
-    
-    score_text = bg_font.render("Score: " + str(score), True, "black")
-    screen.blit(score_text, (5 + 2, HEIGHT - 40 + 2))
-    lives_text = bg_font.render("Lives: " + str(lives), True, "black")
-    screen.blit(lives_text, (WIDTH - 100 + 2, HEIGHT - 40 + 2))
-    
-    score_text = fg_font.render("Score: " + str(score), True, "green")
-    screen.blit(score_text, (5, HEIGHT - 40))
-    lives_text = fg_font.render("Lives: " + str(lives), True, "green")
-    screen.blit(lives_text, (WIDTH - 100, HEIGHT - 40))
-    
     if ball_pos.centery >= HEIGHT: # dead
-        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 50, 68, 8)
+        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 68, 8)
         ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
@@ -131,7 +133,7 @@ while running:
     if keys[pygame.K_d] or keys[pygame.K_s] or keys[pygame.K_RIGHT] or keys[pygame.K_DOWN]:
         if player_pos.centerx + player_step * dt <= WIDTH:
             player_pos.x += player_step * dt
-
+    
     pygame.display.flip() # bufferswap
     dt = clock.tick(FPS) / 1000 # limit fps
 
