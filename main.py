@@ -125,10 +125,10 @@ while running:
     
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_a] or keys[pygame.K_w]:
+    if keys[pygame.K_a] or keys[pygame.K_w] or keys[pygame.K_LEFT] or keys[pygame.K_UP]:
         if player_pos.centerx - player_step * dt >= 0:
             player_pos.x -= player_step * dt
-    if keys[pygame.K_d] or keys[pygame.K_s]:
+    if keys[pygame.K_d] or keys[pygame.K_s] or keys[pygame.K_RIGHT] or keys[pygame.K_DOWN]:
         if player_pos.centerx + player_step * dt <= WIDTH:
             player_pos.x += player_step * dt
 
