@@ -41,9 +41,9 @@ def create_bricks() -> list:
     x = 5
     y = 25
     for _ in range(5):
+        brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
         for _ in range(10):
             x += 40
-            brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
             level.append((x, y, brick_color))
         y += 25
         x = 5
@@ -64,9 +64,15 @@ while running:
         if ball_pos.colliderect(block[0], block[1], 35, 10):
             bricks.remove(block)
             score += 10
-        if len(bricks) == 0:
+            ball_dir_y *= -1
+        if len(bricks) == 0: # new level
             bricks = create_bricks()
             score += 250
+            player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 68, 8)
+            ball_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT / 2, 8, 8)
+            ball_dir_x = 1
+            ball_dir_y = 1
+            ball_ang = 0
             
     for block in bricks:
         brick_color = block[2]
@@ -88,7 +94,7 @@ while running:
     lives_text = fg_font.render("Lives: " + str(lives), True, "green")
     screen.blit(lives_text, (WIDTH - 100, HEIGHT - 40))
     
-    if ball_pos.centery >= HEIGHT:
+    if ball_pos.centery >= HEIGHT: # dead
         player_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT - 50, 68, 8)
         ball_pos = pygame.rect.Rect(WIDTH / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
