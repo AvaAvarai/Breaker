@@ -4,6 +4,7 @@ import random
 FPS = 60
 WIDTH = 480
 HEIGHT = 640
+UI_HEIGHT = 40
 
 pygame.init()
 screen: pygame.surface.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -20,8 +21,8 @@ fg_font: pygame.font.Font = pygame.font.SysFont("arial", 28)
 fg_font_color = (255, 0, 0)
 
 dt = 0
-player_step = 200
-ball_step = 300
+player_step = 300
+ball_step = 350
 
 score = 0
 lives = 3
@@ -57,10 +58,10 @@ while running:
 
     # --- INTERFACE DRAW ---
     screen.fill("grey")
-    screen.blit(background_image, (0, 40))
+    screen.blit(background_image, (0, UI_HEIGHT))
     
-    pygame.draw.rect(screen, (50, 50, 125), pygame.Rect(0, 34, WIDTH, 6))
-    pygame.draw.rect(screen, (175, 175, 175), pygame.Rect(0, 0, WIDTH, 34))
+    pygame.draw.rect(screen, (50, 50, 125), pygame.Rect(0, UI_HEIGHT - 6, WIDTH, 6))
+    pygame.draw.rect(screen, (175, 175, 175), pygame.Rect(0, 0, WIDTH, UI_HEIGHT - 6))
     
     score_text = fg_font.render("Score: " + str(score), True, fg_font_color)
     screen.blit(score_text, (WIDTH / 4, 0))
@@ -111,9 +112,10 @@ while running:
     elif ball_pos.centerx >= WIDTH:
         ball_dir_x *= -1
     
-    if ball_pos.top <= 40:
+    if ball_pos.top <= UI_HEIGHT:
         ball_dir_y *= -1
     
+    # --- BALL/PLAYER COLLIDE ---
     if ball_pos.colliderect(player_pos):
         ball_dir_y *= -1
         if ball_pos.centerx < player_pos.centerx:
@@ -128,11 +130,11 @@ while running:
     # --- INPUT ---
     keys = pygame.key.get_pressed()
     
-    if keys[pygame.K_a] or keys[pygame.K_w] or keys[pygame.K_LEFT] or keys[pygame.K_UP]:
-        if player_pos.centerx - player_step * dt >= 0:
+    if keys[pygame.K_a] or keys[pygame.K_w] or keys[pygame.K_LEFT] or keys[pygame.K_UP]: # left
+        if player_pos.centerx - (player_step * dt) >= 0:
             player_pos = player_pos.move((-1 * player_step * dt, 0))
-    if keys[pygame.K_d] or keys[pygame.K_s] or keys[pygame.K_RIGHT] or keys[pygame.K_DOWN]:
-        if player_pos.centerx + player_step * dt <= WIDTH:
+    elif keys[pygame.K_d] or keys[pygame.K_s] or keys[pygame.K_RIGHT] or keys[pygame.K_DOWN]: # right
+        if player_pos.centerx + (player_step * dt) <= WIDTH:
             player_pos = player_pos.move((player_step * dt, 0))
     
     # --- END FRAME ---
