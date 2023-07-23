@@ -105,7 +105,7 @@ while running:
     elif ball_pos.centerx >= WIDTH:
         ball_dir_x *= -1
     
-    if ball_pos.top <= 0:
+    if ball_pos.top <= 40:
         ball_dir_y *= -1
     
     elif ball_pos.colliderect(player_pos):
