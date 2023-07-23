@@ -35,15 +35,15 @@ ball_ang = 0
 brick_color = [0, 0, 0]
 def create_bricks() -> list:
     level = []
-    x = -37
+    x = -25
     y = 70
-    for _ in range(5):
+    for _ in range(6):
         brick_color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
-        for _ in range(12):
-            x += 40
+        for _ in range(13):
+            x += 35
             level.append((x, y, brick_color))
-        y += 25
-        x = -37
+        y += 15e
+        x = -25
     return level
 
 bricks = create_bricks()
