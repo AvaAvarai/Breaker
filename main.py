@@ -62,8 +62,8 @@ while running:
             running = False
 
     # --- INTERFACE DRAW ---
-    screen.fill("grey")
-    screen.blit(background_image, (0, UI_HEIGHT))
+    screen.fill((0, 0, 0))
+    screen.blit(background_image, (5, UI_HEIGHT + 5))
 
     pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, WIDTH, UI_HEIGHT)) # UI
 
