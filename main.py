@@ -19,7 +19,7 @@ pygame.display.set_icon(ball_image)
 clock = pygame.time.Clock()
 running = True
 
-fg_font: pygame.font.Font = pygame.font.SysFont("arial", 28)
+fg_font: pygame.font.Font = pygame.font.SysFont("arial", 28, bold=True)
 fg_font_color1 = (255, 0, 0)
 fg_font_color2 = (255, 255, 255)
 
@@ -81,7 +81,7 @@ while running:
     # --- BRICK COLLIDE ---
     for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 36, 15):
-            pygame.mixer.Sound.play(pygame.mixer.Sound("ping.mp3"))
+            pygame.mixer.Sound.play(pygame.mixer.Sound("ping.wav"))
             if block[3] == 1:
                 bricks.remove(block)
             else:
