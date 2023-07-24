@@ -10,11 +10,11 @@ pygame.init()
 screen: pygame.surface.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Breaker')
 
-background_image = pygame.image.load('background.jpg')
-frame_image = pygame.image.load('frame.png')
-ball_image = pygame.image.load('ball.png')
-paddle_image = pygame.image.load('paddle.png')
-pygame.display.set_icon(pygame.image.load('ball.ico'))
+background_image = pygame.image.load('assets/image/background.jpg')
+frame_image = pygame.image.load('assets/image/frame.png')
+ball_image = pygame.image.load('assets/image/ball.png')
+paddle_image = pygame.image.load('assets/image/paddle.png')
+pygame.display.set_icon(pygame.image.load('assets/image/ball.ico'))
 
 clock = pygame.time.Clock()
 running = True
