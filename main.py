@@ -144,17 +144,21 @@ while running:
 
     # --- BALL PHYSICS ---
     if ball_pos.centery > HEIGHT: # dead
+        if lives > 0:
+            pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/drop.wav"))
+            lives -= 1
+        else:
+            pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/crash.wav"))
+            lives = 3
+            score = 0
+            bricks = create_bricks()
+        
         player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
         ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
         ball_ang = 0
-        lives -= 1
-        if lives < 0:
-            lives = 3
-            score = 0
-            bricks = create_bricks()
-    
+
     if ball_pos.centerx < 15:
         ball_dir_x *= -1
     elif ball_pos.centerx > WIDTH - 15:
