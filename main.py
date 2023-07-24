@@ -4,7 +4,7 @@ import random
 FPS = 60
 WIDTH = 480
 HEIGHT = 640
-UI_HEIGHT = 55
+UI_HEIGHT = 45
 
 pygame.init()
 screen: pygame.surface.Surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -20,7 +20,7 @@ pygame.display.set_icon(pygame.image.load('assets/image/ball.ico'))
 clock = pygame.time.Clock()
 running = True
 
-fg_font: pygame.font.Font = pygame.font.SysFont("arial", 28, bold=True)
+fg_font: pygame.font.Font = pygame.font.SysFont(pygame.font.match_font("cascadiamonoregular"), 32)
 fg_font_color1 = (255, 0, 0)
 fg_font_color2 = (255, 255, 255)
 
@@ -71,7 +71,7 @@ def create_bricks() -> list:
     colors = gen_colors(6)
     level = []
     x = 7
-    y = UI_HEIGHT + 50
+    y = UI_HEIGHT + 75
     for i in range(6): # y
         brick_color = colors[i]
         for _ in range(13): # x
@@ -100,15 +100,15 @@ while running:
 
     pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, WIDTH, UI_HEIGHT)) # UI
 
-    lives_text = fg_font.render("Score", True, fg_font_color1)
-    screen.blit(lives_text, (WIDTH - 3 * WIDTH / 4 - len("Score") / 2, 0))
+    lives_text = fg_font.render("SCORE", True, fg_font_color1)
+    screen.blit(lives_text, (WIDTH - 3 * WIDTH / 4 - len("SCORE") / 2, 5))
     lives_text = fg_font.render(str(score), True, fg_font_color2)
-    screen.blit(lives_text, (WIDTH - 3 * WIDTH / 4 - len("Score") / 2 + 20, 23))
+    screen.blit(lives_text, (WIDTH - 3 * WIDTH / 4 + 25, 25))
     
-    score_text = fg_font.render("High Score", True, fg_font_color1)
-    screen.blit(score_text, (WIDTH - 2 * WIDTH / 4 - len("High Score") / 2, 0))
+    score_text = fg_font.render("HIGH SCORE", True, fg_font_color1)
+    screen.blit(score_text, (WIDTH - 2 * WIDTH / 4 - len("HIGH SCORE") / 2, 5))
     score_number_text = fg_font.render(str(highscore), True, fg_font_color2)
-    screen.blit(score_number_text, (WIDTH - 2 * WIDTH / 4 - len("High Score") / 2 + 20, 23))
+    screen.blit(score_number_text, (WIDTH - 2 * WIDTH / 4 + 25, 25))
     
     # --- BRICK COLLIDE ---
     for block in bricks:
