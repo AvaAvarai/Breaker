@@ -1,12 +1,11 @@
 # Breaker
-Brick-breaker game inspired by Arkanoid written in Python using the PyGame library.  
-Completing a level gets extra points, dense bricks take two hits to break through.  
-Winning 2500, 5000, 7500, ... points will earn an extra life.  
+Can you brick-break to a highscore? Brick-breaker game inspired by Arkanoid written in Python using the PyGame library.  
 
 ![Gameplay Demo](gameplay.png)
 
 ## How to run
-Install [PyGame](https://www.pygame.org/wiki/GettingStarted)[1] for your Python environment and run with Python `main.py`.
+For Windows check the Releases to get our latest installer or executable.  
+To run yourself install [PyGame](https://www.pygame.org/wiki/GettingStarted)[1] for your Python environment and run `main.py` with Python.  
 
 ## Controls
 Hit the ball and do not let it fall!
@@ -16,10 +15,8 @@ Hit the ball and do not let it fall!
 
 ## Goals
 - Powerup drops
-- Local highscore store and show
-- Spacebar to start
-- enemies to spawn from center of level floor
-- different level layouts
+- Start menu
+- Level layouts
 
 ## Sources
 [1] PyGame https://www.pygame.org/wiki/GettingStarted  
