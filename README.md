@@ -14,7 +14,11 @@ _Hit the ball and do not let it fall!_
 - move paddle right: d, s, right-arrow, down-arrow
 - Exit game: escape
 
-Collect green B powerups (10% drop rate) to get a ball boost and magenta L powerups (5% drop rate) to get a life boost.  
+Collect powerups:
+- green B Boost powerups (10% drop rate) to get a ball boost
+- magenta L Life powerups (5% drop rate) to get a life boost
+
+Break bricks and clear levels for points.
 
 ## Goals
 - more powerup types
