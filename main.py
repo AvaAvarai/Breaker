@@ -34,7 +34,7 @@ lives: int = 3
 pygame.mixer.music.load('assets/audio/level' + str(level % 5) + '.ogg')
 pygame.mixer.music.play(-1)
 
-player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
+player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
 
 ball_dir_x = 1
@@ -119,7 +119,7 @@ while running:
                 pygame.mixer.music.play(-1)
                 bricks = create_bricks()
                 score += 250
-                player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
+                player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
                 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
                 ball_dir_x = 1
                 ball_dir_y = 1
@@ -153,7 +153,7 @@ while running:
             score = 0
             bricks = create_bricks()
         
-        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
+        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
         ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
