@@ -68,13 +68,13 @@ class game:
         pygame.display.set_caption('Breaker')
         pygame.display.set_icon(pygame.image.load('assets/image/ball.ico'))
         
-        self.background_image = pygame.image.load('assets/image/background.jpg')
-        self.frame_image = pygame.image.load('assets/image/frame.png')
-        self.ball_image = pygame.image.load('assets/image/ball.png')
-        self.paddle_image = pygame.image.load('assets/image/paddle.png')
-        self.paddle_icon_image = pygame.image.load('assets/image/paddle_icon.png')
-        self.powerup1_image = pygame.image.load('assets/image/powerup1.png')
-        self.powerup2_image = pygame.image.load('assets/image/powerup2.png')
+        self.background_image: pygame.surface.Surface = pygame.image.load('assets/image/background.jpg')
+        self.frame_image: pygame.surface.Surface = pygame.image.load('assets/image/frame.png')
+        self.ball_image: pygame.surface.Surface = pygame.image.load('assets/image/ball.png')
+        self.paddle_image: pygame.surface.Surface = pygame.image.load('assets/image/paddle.png')
+        self.paddle_icon_image: pygame.surface.Surface = pygame.image.load('assets/image/paddle_icon.png')
+        self.powerup1_image: pygame.surface.Surface = pygame.image.load('assets/image/powerup1.png') # B
+        self.powerup2_image: pygame.surface.Surface = pygame.image.load('assets/image/powerup2.png') # L
         
         play_level_music(1)
 
