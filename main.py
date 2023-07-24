@@ -30,13 +30,11 @@ ball_step = 350
 
 level: int = 1
 score: int = 0
+highscore: int = 5000
 lives: int = 3
 
 pygame.mixer.music.load('assets/audio/level' + str(level % 5) + '.ogg')
 pygame.mixer.music.play(-1)
-
-
-ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
 
 ball_dir_x = 1
 ball_dir_y = 1
@@ -44,6 +42,9 @@ ball_ang = 0
 
 def reset_player_pos() -> pygame.rect.Rect:
     return pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
+
+def reset_boll_pos() -> pygame.rect.Rect:
+    return pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
 
 def color_dist(color1: tuple[int, int, int], color2: tuple[int, int, int]) -> int:
     distance: int = 0
@@ -84,6 +85,7 @@ def create_bricks() -> list:
     return level
 
 player_pos = reset_player_pos()
+ball_pos = reset_boll_pos()
 bricks = create_bricks()
 
 while running:
@@ -98,15 +100,15 @@ while running:
 
     pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, WIDTH, UI_HEIGHT)) # UI
 
-    lives_text = fg_font.render("Lives", True, fg_font_color1)
-    screen.blit(lives_text, (WIDTH / 3 - len("Lives") / 3, 0))
-    lives_text = fg_font.render(str(lives), True, fg_font_color2)
-    screen.blit(lives_text, (WIDTH / 3 - len("Lives") / 3 + 20, 23))
+    lives_text = fg_font.render("Score", True, fg_font_color1)
+    screen.blit(lives_text, (WIDTH - 3 * WIDTH / 4 - len("Score") / 2, 0))
+    lives_text = fg_font.render(str(score), True, fg_font_color2)
+    screen.blit(lives_text, (WIDTH - 3 * WIDTH / 4 - len("Score") / 2 + 20, 23))
     
-    score_text = fg_font.render("Score", True, fg_font_color1)
-    screen.blit(score_text, (WIDTH / 2 - len("Score") / 2, 0))
-    score_number_text = fg_font.render(str(score), True, fg_font_color2)
-    screen.blit(score_number_text, (WIDTH / 2 - len("Score") / 2 + 20, 23))
+    score_text = fg_font.render("High Score", True, fg_font_color1)
+    screen.blit(score_text, (WIDTH - 2 * WIDTH / 4 - len("High Score") / 2, 0))
+    score_number_text = fg_font.render(str(highscore), True, fg_font_color2)
+    screen.blit(score_number_text, (WIDTH - 2 * WIDTH / 4 - len("High Score") / 2 + 20, 23))
     
     # --- BRICK COLLIDE ---
     for block in bricks:
@@ -125,12 +127,14 @@ while running:
                 bricks = create_bricks()
                 score += 250
                 player_pos = reset_player_pos()
-                ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
+                ball_pos = reset_boll_pos()
                 ball_dir_x = 1
                 ball_dir_y = 1
                 ball_ang = 0
             if score % 2500 == 0:
                 lives += 1
+            if score > highscore:
+                highscore = score
 
     # --- BRICK DRAW ---
     for block in bricks:
@@ -162,7 +166,7 @@ while running:
             bricks = create_bricks()
         
         player_pos = reset_player_pos()
-        ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
+        ball_pos = reset_boll_pos()
         ball_dir_x = 1
         ball_dir_y = 1
         ball_ang = 0
