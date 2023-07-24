@@ -203,7 +203,7 @@ def start_game() -> None:
         
         # --- BALL/PLAYER COLLIDE ---
         if ball_pos.colliderect(player_pos):
-            ball_dir_y *= -1
+            ball_dir_y = -1
             ball_dir_x = 1
             if ball_pos.centerx < player_pos.centerx:
                 ball_ang = -(player_pos.centerx - ball_pos.centerx)
@@ -219,10 +219,10 @@ def start_game() -> None:
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_a] or keys[pygame.K_w] or keys[pygame.K_LEFT] or keys[pygame.K_UP]: # left
-            if player_pos.centerx - (player_step * dt) >= 0:
+            if player_pos.right - 5 - (player_step * dt) >= 0:
                 player_pos = player_pos.move((-1 * player_step * dt, 0))
         elif keys[pygame.K_d] or keys[pygame.K_s] or keys[pygame.K_RIGHT] or keys[pygame.K_DOWN]: # right
-            if player_pos.centerx + (player_step * dt) <= WIDTH:
+            if player_pos.left + 5 + (player_step * dt) <= WIDTH:
                 player_pos = player_pos.move((player_step * dt, 0))
         elif keys[pygame.K_ESCAPE]:
             running = False
