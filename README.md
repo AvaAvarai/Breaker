@@ -6,7 +6,7 @@ Brick-breaker game inspired by Arkanoid written in Python using the PyGame libra
 
 ## How to run
 For Windows check the Releases to get our latest installer or executable.  
-To run yourself install [PyGame](https://www.pygame.org/wiki/GettingStarted)[1] for your Python environment and run `main.py` with Python.  
+To run directly install [PyGame](https://www.pygame.org/wiki/GettingStarted)[1] for your Python environment and run `main.py` with Python.  
 
 ## Controls
 _Hit the ball and do not let it fall!_
@@ -21,10 +21,11 @@ Collect powerups:
 Break bricks and clear levels for points.
 
 ## How to build
+Requires cx_Freeze package.  
 - To build executable: `python pack_executable.py build`
 - To build installer: `python pack_executable.py bdist_msi`
 
-You may need to replace python with your systems python command if that differs from the default.
+You may need to replace python with your systems python command if that differs.
 
 ## Goals
 - more powerup types
