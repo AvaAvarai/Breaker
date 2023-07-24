@@ -67,7 +67,7 @@ def gen_colors(n: int) -> list[tuple[int, int, int]]:
             colors.append(new_color)
     return colors[1::]
 
-def create_bricks() -> list:
+def create_bricks(level_number: int) -> list:
     colors = gen_colors(6)
     level = []
     x = 7
@@ -76,7 +76,7 @@ def create_bricks() -> list:
         brick_color = colors[i]
         for _ in range(13): # x
             density = 1
-            if random.randrange(0, 5) == 0:
+            if random.randrange(0, 6 - level_number) == 0:
                 density = 2 
             level.append([x, y, brick_color, density])
             x += 36
@@ -86,7 +86,7 @@ def create_bricks() -> list:
 
 player_pos = reset_player_pos()
 ball_pos = reset_boll_pos()
-bricks = create_bricks()
+bricks = create_bricks(1)
 
 while running:
     # --- CHECK EXIT ---
@@ -124,7 +124,7 @@ while running:
                 level += 1
                 pygame.mixer.music.load('assets/audio/level' + str(level % 5) + '.ogg')
                 pygame.mixer.music.play(-1)
-                bricks = create_bricks()
+                bricks = create_bricks(level)
                 score += 250
                 player_pos = reset_player_pos()
                 ball_pos = reset_boll_pos()
@@ -163,7 +163,7 @@ while running:
             pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/crash.wav"))
             lives = 3
             score = 0
-            bricks = create_bricks()
+            bricks = create_bricks(1)
         
         player_pos = reset_player_pos()
         ball_pos = reset_boll_pos()
