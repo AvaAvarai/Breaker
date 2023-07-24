@@ -35,12 +35,15 @@ lives: int = 3
 pygame.mixer.music.load('assets/audio/level' + str(level % 5) + '.ogg')
 pygame.mixer.music.play(-1)
 
-player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
+
 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
 
 ball_dir_x = 1
 ball_dir_y = 1
 ball_ang = 0
+
+def reset_player_pos() -> pygame.rect.Rect:
+    return pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
 
 def color_dist(color1: tuple[int, int, int], color2: tuple[int, int, int]) -> int:
     distance: int = 0
@@ -80,6 +83,7 @@ def create_bricks() -> list:
         x = 7
     return level
 
+player_pos = reset_player_pos()
 bricks = create_bricks()
 
 while running:
@@ -120,7 +124,7 @@ while running:
                 pygame.mixer.music.play(-1)
                 bricks = create_bricks()
                 score += 250
-                player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
+                player_pos = reset_player_pos()
                 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
                 ball_dir_x = 1
                 ball_dir_y = 1
@@ -157,7 +161,7 @@ while running:
             score = 0
             bricks = create_bricks()
         
-        player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
+        player_pos = reset_player_pos()
         ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
         ball_dir_x = 1
         ball_dir_y = 1
@@ -174,6 +178,7 @@ while running:
     # --- BALL/PLAYER COLLIDE ---
     if ball_pos.colliderect(player_pos):
         ball_dir_y *= -1
+        ball_dir_x = 1
         if ball_pos.centerx < player_pos.centerx:
             ball_ang = -(player_pos.centerx - ball_pos.centerx)
         elif ball_pos.centerx > player_pos.centerx:
