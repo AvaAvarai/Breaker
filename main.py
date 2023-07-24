@@ -16,7 +16,7 @@ def default_ball_pos() -> pygame.rect.Rect:
 def color_dist(color1: tuple[int, int, int], color2: tuple[int, int, int]) -> int:
     distance: int = 0
     for index, c1 in enumerate(color1):
-        c2 = color2[index]
+        c2: int = color2[index]
         distance += (c2 - c1) ** 2
     return distance ** 0.5
 
@@ -24,8 +24,8 @@ def gen_colors(n: int) -> list[tuple[int, int, int]]:
     variance: int = 150
     colors: list[tuple[int, int, int]] = [(25, 25, 25)]
     while len(colors) != (n+1):
-        bad = False
-        new_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        bad: bool = False
+        new_color: tuple[int, int, int] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         for color in colors:
             if color_dist(color, new_color) < variance:
                 bad = True
@@ -42,8 +42,8 @@ def create_bricks(level_number: int) -> list[list]:
     for i in range(6): # y
         brick_color = colors[i]
         for _ in range(13): # x
+            density: int = 1
             if i > 0:
-                density = 1
                 if random.randrange(0, 10 - level_number) == 0:
                     density = 2 
             else:
@@ -59,14 +59,11 @@ def play_level_music(level_number: int) -> None:
     pygame.mixer.music.play(-1)
 
 class game:
-    def __init__(self) -> None:
-        pygame.init()
+    def __init__(self, screen) -> None:
         self.clock: pygame.time.Clock = pygame.time.Clock()
         self.running: bool = True
-        
-        self.screen: pygame.surface.Surface = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-        pygame.display.set_caption('Breaker')
-        pygame.display.set_icon(pygame.image.load('assets/image/ball.ico'))
+        self.screen = screen
+        play_level_music(1)
         
         self.background_image: pygame.surface.Surface = pygame.image.load('assets/image/background.jpg')
         self.frame_image: pygame.surface.Surface = pygame.image.load('assets/image/frame.png')
@@ -76,16 +73,14 @@ class game:
         self.powerup1_image: pygame.surface.Surface = pygame.image.load('assets/image/powerup1.png') # B
         self.powerup2_image: pygame.surface.Surface = pygame.image.load('assets/image/powerup2.png') # L
         
-        play_level_music(1)
-
-        self.ball_dir_x: int = 1
-        self.ball_dir_y: int = 1
-        self.ball_ang = 0
-
         self.fg_font: pygame.font.Font = pygame.font.SysFont(pygame.font.match_font("cascadiamonoregular"), 32)
         self.fg_font_color1: tuple[int, int, int] = (255, 0, 0)
         self.fg_font_color2: tuple[int, int, int] = (255, 255, 255)
 
+        self.ball_dir_x: int = 1
+        self.ball_dir_y: int = 1
+        self.ball_ang = 0
+        
         self.dt = 0
         self.player_step: int = 300
         self.ball_step: int = 350
@@ -217,7 +212,7 @@ class game:
                     self.ball_ang = 0
                 else:
                     pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/crash.wav"))
-                    self.__init__()
+                    self.__init__(self.screen)
 
             if self.ball_pos.centerx < 15:
                 self.ball_dir_x *= -1
@@ -261,6 +256,10 @@ class game:
             self.dt = self.clock.tick(FPS_TARGET) / 1000 # limit fps
 
 if __name__ == "__main__":
-    new_game = game()
+    pygame.init()
+    pygame.display.set_caption('Breaker')
+    pygame.display.set_icon(pygame.image.load('assets/image/ball.ico'))
+    screen: pygame.surface.Surface = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    new_game = game(screen)
     new_game.start()
     pygame.quit()
