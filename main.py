@@ -83,6 +83,7 @@ def start_game() -> None:
 
     level: int = 1
     score: int = 0
+    bonus: int = 1
     highscore: int = 5000
     lives: int = 3
 
@@ -133,10 +134,11 @@ def start_game() -> None:
                     ball_dir_x = 1
                     ball_dir_y = 1
                     ball_ang = 0
-                if score % 2500 == 0:
-                    lives += 1
                 if score > highscore:
                     highscore = score
+                if score >= 2500 * bonus:
+                    lives += 1
+                    bonus += 1
 
         # --- BRICK DRAW ---
         for block in bricks:
