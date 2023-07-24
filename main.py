@@ -7,10 +7,10 @@ HEIGHT = 640
 UI_HEIGHT = 45
 
 def reset_player_pos() -> pygame.rect.Rect:
-    return pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 60, 15)
+    return pygame.rect.Rect(WIDTH * 0.5 - 30, HEIGHT - 55, 60, 15)
 
 def reset_boll_pos() -> pygame.rect.Rect:
-    return pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
+    return pygame.rect.Rect(WIDTH * 0.5 - 4, HEIGHT * 0.5, 8, 8)
 
 def color_dist(color1: tuple[int, int, int], color2: tuple[int, int, int]) -> int:
     distance: int = 0
@@ -20,7 +20,7 @@ def color_dist(color1: tuple[int, int, int], color2: tuple[int, int, int]) -> in
     return distance ** 0.5
 
 def gen_colors(n: int) -> list[tuple[int, int, int]]:
-    variance: int = 150 # out of 255
+    variance: int = 150
     colors: list[tuple[int, int, int]] = [(25, 25, 25)]
     while len(colors) != (n+1):
         bad = False
@@ -34,16 +34,19 @@ def gen_colors(n: int) -> list[tuple[int, int, int]]:
     return colors[1::]
 
 def create_bricks(level_number: int) -> list:
-    colors = gen_colors(6)
-    level = []
-    x = 7
-    y = UI_HEIGHT + 75
+    colors: list[tuple[int, int, int]] = gen_colors(6)
+    level: list[list] = []
+    x: int = 7
+    y: int = UI_HEIGHT + 75
     for i in range(6): # y
         brick_color = colors[i]
         for _ in range(13): # x
-            density = 1
-            if random.randrange(0, 6 - level_number) == 0:
-                density = 2 
+            if i > 1:
+                density = 1
+                if random.randrange(0, 6 - level_number) == 0:
+                    density = 2 
+            else:
+                density = 2
             level.append([x, y, brick_color, density])
             x += 36
         y += 17
@@ -180,7 +183,7 @@ def start_game() -> None:
         elif ball_pos.centerx > WIDTH - 15:
             ball_dir_x *= -1
         
-        if ball_pos.top <= UI_HEIGHT + 10:
+        if ball_pos.centery < UI_HEIGHT + 10:
             ball_dir_y *= -1
         
         # --- BALL/PLAYER COLLIDE ---
