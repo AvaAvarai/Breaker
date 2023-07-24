@@ -1,4 +1,5 @@
 import pygame
+import pickle
 import random
 
 FPS = 60
@@ -87,9 +88,19 @@ def start_game() -> None:
     level: int = 1
     score: int = 0
     bonus: int = 1
-    highscore: int = 5000
     lives: int = 3
 
+    try:
+        file = open('highscore', 'rb')
+        highscore: int = pickle.load(file)['highscore']
+        file.close()
+    except:
+        highscore: int = 5000
+        file = open('highscore', 'wb')
+        save = {'highscore': highscore}
+        pickle.dump(save, file)
+        file.close()
+    
     player_pos = reset_player_pos()
     ball_pos = reset_boll_pos()
     bricks = create_bricks(1)
@@ -139,6 +150,10 @@ def start_game() -> None:
                     ball_ang = 0
                 if score > highscore:
                     highscore = score
+                    file = open('highscore', 'wb')
+                    save = {'highscore': highscore}
+                    pickle.dump(save, file)
+                    file.close()
                 if score >= 2500 * bonus:
                     lives += 1
                     bonus += 1
