@@ -120,14 +120,14 @@ def start_game() -> None:
                     bricks.remove(block)
                 else:
                     block[3] -= 1
-                score += 10
+                score += 10 * level
                 ball_dir_y *= -1
                 if len(bricks) == 0: # new level
                     level += 1
                     pygame.mixer.music.load('assets/audio/level' + str(level % 5) + '.ogg')
                     pygame.mixer.music.play(-1)
                     bricks = create_bricks(level)
-                    score += 250
+                    score += 250 * level
                     player_pos = reset_player_pos()
                     ball_pos = reset_boll_pos()
                     ball_dir_x = 1
