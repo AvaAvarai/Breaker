@@ -27,8 +27,12 @@ dt = 0
 player_step = 300
 ball_step = 350
 
-score = 0
-lives = 3
+level: int = 1
+score: int = 0
+lives: int = 3
+
+pygame.mixer.music.load('assets/audio/level' + str(level % 5) + '.ogg')
+pygame.mixer.music.play(-1)
 
 player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
 ball_pos = pygame.rect.Rect(WIDTH / 2 - 8 / 2, HEIGHT / 2, 8, 8)
@@ -102,7 +106,7 @@ while running:
     # --- BRICK COLLIDE ---
     for block in bricks:
         if ball_pos.colliderect(block[0], block[1], 36, 15):
-            pygame.mixer.Sound.play(pygame.mixer.Sound("ping.wav"))
+            pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/ping.wav"))
             if block[3] == 1:
                 bricks.remove(block)
             else:
@@ -110,6 +114,9 @@ while running:
             score += 10
             ball_dir_y *= -1
             if len(bricks) == 0: # new level
+                level += 1
+                pygame.mixer.music.load('assets/audio/level' + str(level % 5) + '.ogg')
+                pygame.mixer.music.play(-1)
                 bricks = create_bricks()
                 score += 250
                 player_pos = pygame.rect.Rect(WIDTH / 2 - 68 / 2, HEIGHT - 55, 70, 15)
