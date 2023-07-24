@@ -14,6 +14,7 @@ background_image = pygame.image.load('assets/image/background.jpg')
 frame_image = pygame.image.load('assets/image/frame.png')
 ball_image = pygame.image.load('assets/image/ball.png')
 paddle_image = pygame.image.load('assets/image/paddle.png')
+paddle_icon_image = pygame.image.load('assets/image/paddle_icon.png')
 pygame.display.set_icon(pygame.image.load('assets/image/ball.ico'))
 
 clock = pygame.time.Clock()
@@ -141,6 +142,9 @@ while running:
     # --- PLAYER/BALL DRAW ---
     screen.blit(ball_image, ball_pos)
     screen.blit(paddle_image, player_pos)
+    
+    for life_number in range(lives):
+        screen.blit(paddle_icon_image, (10 + life_number * 35, HEIGHT - 15, 30, 8))
 
     # --- BALL PHYSICS ---
     if ball_pos.centery > HEIGHT: # dead
