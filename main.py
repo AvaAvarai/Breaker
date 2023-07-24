@@ -73,6 +73,8 @@ class game:
         self.ball_image = pygame.image.load('assets/image/ball.png')
         self.paddle_image = pygame.image.load('assets/image/paddle.png')
         self.paddle_icon_image = pygame.image.load('assets/image/paddle_icon.png')
+        self.powerup1_image = pygame.image.load('assets/image/powerup1.png')
+        self.powerup2_image = pygame.image.load('assets/image/powerup2.png')
         
         play_level_music(1)
 
@@ -107,6 +109,7 @@ class game:
         self.player_pos: pygame.rect.Rect = default_player_pos()
         self.ball_pos: pygame.rect.Rect = default_ball_pos()
         self.bricks: list[list] = create_bricks(1)
+        self.powerups: list[list] = []
 
     def start(self):
         while self.running:
@@ -135,6 +138,10 @@ class game:
             for block in self.bricks:
                 if self.ball_pos.colliderect(block[0], block[1], 36, 15):
                     pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/ping.wav"))
+                    if random.randint(1, 10) == 10: # 10%
+                        self.powerups.append([block[0], block[1]+10, 1])
+                    if random.randint(1, 20) == 20: # 5%
+                        self.powerups.append([block[0], block[1]+10, 2])
                     if block[3] == 1:
                         self.bricks.remove(block)
                     else:
@@ -148,6 +155,8 @@ class game:
                         self.score += 250 * self.level
                         self.player_pos = default_player_pos()
                         self.ball_pos = default_ball_pos()
+                        self.player_step: int = 300
+                        self.ball_step: int = 350
                         self.ball_dir_x = 1
                         self.ball_dir_y = 1
                         self.ball_ang = 0
@@ -172,6 +181,21 @@ class game:
                     pygame.draw.rect(self.screen, "black", (block[0]-1, block[1]-1, 36, 17))
                     pygame.draw.rect(self.screen, brick_color, (block[0], block[1], 34, 14))
 
+            for powerup in self.powerups:
+                if powerup[2] == 1:
+                    self.screen.blit(self.powerup1_image, (powerup[0], powerup[1]))
+                elif powerup[2] == 2:
+                    self.screen.blit(self.powerup2_image, (powerup[0], powerup[1]))
+                if powerup[1] > WIN_HEIGHT:
+                    self.powerups.remove(powerup)
+                if self.player_pos.colliderect((powerup[0], powerup[1], 25, 10)):
+                    if powerup[2] == 1:
+                        self.ball_step = int(1.25 * self.ball_step)
+                    elif powerup[2] == 2:
+                        self.lives += 1
+                    self.powerups.remove(powerup)
+                powerup[1] += 100 * self.dt
+
             # --- PLAYER/BALL DRAW ---
             self.screen.blit(self.ball_image, self.ball_pos)
             self.screen.blit(self.paddle_image, self.player_pos)
@@ -184,17 +208,16 @@ class game:
                 if self.lives > 0:
                     pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/drop.wav"))
                     self.lives -= 1
+                    self.player_pos = default_player_pos()
+                    self.ball_pos = default_ball_pos()
+                    self.player_step: int = 300
+                    self.ball_step: int = 350
+                    self.ball_dir_x = 1
+                    self.ball_dir_y = 1
+                    self.ball_ang = 0
                 else:
                     pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/crash.wav"))
-                    self.lives = 3
-                    self.score = 0
-                    self.bricks = create_bricks(1)
-                
-                self.player_pos = default_player_pos()
-                self.ball_pos = default_ball_pos()
-                self.ball_dir_x = 1
-                self.ball_dir_y = 1
-                self.ball_ang = 0
+                    self.__init__()
 
             if self.ball_pos.centerx < 15:
                 self.ball_dir_x *= -1
@@ -215,7 +238,7 @@ class game:
                     
             # --- BALL UPDATE ---
             y = self.ball_step * self.dt * self.ball_dir_y
-            x = 5 * self.ball_ang * self.dt * self.ball_dir_x
+            x = 10 * self.ball_ang * self.dt * self.ball_dir_x
             self.ball_pos = self.ball_pos.move(x, y)
             
             # --- INPUT ---
