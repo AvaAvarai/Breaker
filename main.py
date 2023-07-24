@@ -14,7 +14,7 @@ background_image = pygame.image.load('background.jpg')
 frame_image = pygame.image.load('frame.png')
 ball_image = pygame.image.load('ball.png')
 paddle_image = pygame.image.load('paddle.png')
-pygame.display.set_icon(ball_image)
+pygame.display.set_icon(pygame.image.load('ball.ico'))
 
 clock = pygame.time.Clock()
 running = True
@@ -45,17 +45,18 @@ def color_dist(color1: tuple[int, int, int], color2: tuple[int, int, int]) -> in
     return distance ** 0.5
 
 def gen_colors(n: int) -> list[tuple[int, int, int]]:
-    variance: int = 175 # out of 255
-    colors: list[tuple[int, int, int]] = []
-    while len(colors) != n:
+    variance: int = 150 # out of 255
+    colors: list[tuple[int, int, int]] = [(25, 25, 25)]
+    while len(colors) != (n+1):
         bad = False
         new_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         for color in colors:
             if color_dist(color, new_color) < variance:
                 bad = True
+                break
         if not bad:
             colors.append(new_color)
-    return colors
+    return colors[1::]
 
 def create_bricks() -> list:
     colors = gen_colors(6)
