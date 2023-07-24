@@ -41,9 +41,9 @@ def create_bricks(level_number: int) -> list:
     for i in range(6): # y
         brick_color = colors[i]
         for _ in range(13): # x
-            if i > 1:
+            if i > 0:
                 density = 1
-                if random.randrange(0, 6 - level_number) == 0:
+                if random.randrange(0, 10 - level_number) == 0:
                     density = 2 
             else:
                 density = 2
