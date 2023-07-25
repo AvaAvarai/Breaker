@@ -2,10 +2,17 @@ import pygame
 import pickle
 import random
 
+import sys, os
+
 FPS_TARGET = 60
 WIN_WIDTH = 480
 WIN_HEIGHT = 640
 UI_HEIGHT = 45
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 def default_player_pos() -> pygame.rect.Rect:
     return pygame.rect.Rect(WIN_WIDTH * 0.5 - 30, WIN_HEIGHT - 55, 60, 15)
@@ -55,7 +62,7 @@ def create_bricks(level_number: int) -> list[list]:
     return level
 
 def play_level_music(level_number: int) -> None:
-    pygame.mixer.music.load('assets/audio/level' + str(((level_number-1) % 5) + 1) + '.ogg')
+    pygame.mixer.music.load(resource_path(r'assets\audio\level' + str(((level_number-1) % 5) + 1) + '.ogg'))
     pygame.mixer.music.play(-1)
 
 class game:
@@ -65,13 +72,13 @@ class game:
         self.screen = screen
         play_level_music(1)
         
-        self.background_image: pygame.surface.Surface = pygame.image.load('assets/image/background.jpg')
-        self.frame_image: pygame.surface.Surface = pygame.image.load('assets/image/frame.png')
-        self.ball_image: pygame.surface.Surface = pygame.image.load('assets/image/ball.png')
-        self.paddle_image: pygame.surface.Surface = pygame.image.load('assets/image/paddle.png')
-        self.paddle_icon_image: pygame.surface.Surface = pygame.image.load('assets/image/paddle_icon.png')
-        self.powerup1_image: pygame.surface.Surface = pygame.image.load('assets/image/powerup1.png') # B
-        self.powerup2_image: pygame.surface.Surface = pygame.image.load('assets/image/powerup2.png') # L
+        self.background_image: pygame.surface.Surface = pygame.image.load(resource_path(r'assets\image\background.jpg'))
+        self.frame_image: pygame.surface.Surface = pygame.image.load(resource_path(r'assets\image\frame.png'))
+        self.ball_image: pygame.surface.Surface = pygame.image.load(resource_path(r'assets\image\ball.png'))
+        self.paddle_image: pygame.surface.Surface = pygame.image.load(resource_path(r'assets\image\paddle.png'))
+        self.paddle_icon_image: pygame.surface.Surface = pygame.image.load(resource_path(r'assets\image\paddle_icon.png'))
+        self.powerup1_image: pygame.surface.Surface = pygame.image.load(resource_path(r'assets\image\powerup1.png')) # B
+        self.powerup2_image: pygame.surface.Surface = pygame.image.load(resource_path(r'assets\image\powerup2.png')) # L
         
         self.fg_font: pygame.font.Font = pygame.font.SysFont(pygame.font.match_font("cascadiamonoregular"), 32)
         self.fg_font_color1: tuple[int, int, int] = (255, 0, 0)
@@ -132,7 +139,7 @@ class game:
             # --- BRICK COLLIDE ---
             for block in self.bricks:
                 if self.ball_pos.colliderect(block[0], block[1], 36, 15):
-                    pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/ping.wav"))
+                    pygame.mixer.Sound.play(pygame.mixer.Sound(resource_path(r'assets\audio\ping.wav')))
                     if random.randint(1, 10) == 10: # 10%
                         self.powerups.append([block[0], block[1]+10, 1])
                     if random.randint(1, 20) == 20: # 5%
@@ -191,7 +198,7 @@ class game:
                     self.powerups.remove(powerup)
                 powerup[1] += 100 * self.dt
 
-            # --- PLAYER/BALL DRAW ---
+            # --- PLAYER\BALL DRAW ---
             self.screen.blit(self.ball_image, self.ball_pos)
             self.screen.blit(self.paddle_image, self.player_pos)
             
@@ -201,7 +208,7 @@ class game:
             # --- BALL PHYSICS ---
             if self.ball_pos.centery > WIN_HEIGHT: # dead
                 if self.lives > 0:
-                    pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/drop.wav"))
+                    pygame.mixer.Sound.play(pygame.mixer.Sound(resource_path(r'assets\audio\drop.wav')))
                     self.lives -= 1
                     self.player_pos = default_player_pos()
                     self.ball_pos = default_ball_pos()
@@ -211,7 +218,7 @@ class game:
                     self.ball_dir_y = 1
                     self.ball_ang = 0
                 else:
-                    pygame.mixer.Sound.play(pygame.mixer.Sound("assets/audio/crash.wav"))
+                    pygame.mixer.Sound.play(pygame.mixer.Sound(resource_path(r'assets\audio\crash.wav')))
                     self.__init__(self.screen)
 
             if self.ball_pos.centerx < 15:
@@ -222,7 +229,7 @@ class game:
             if self.ball_pos.centery < UI_HEIGHT + 10:
                 self.ball_dir_y *= -1
             
-            # --- BALL/PLAYER COLLIDE ---
+            # --- BALL\PLAYER COLLIDE ---
             if self.ball_pos.colliderect(self.player_pos):
                 self.ball_dir_y = -1
                 self.ball_dir_x = 1
@@ -258,7 +265,7 @@ class game:
 if __name__ == "__main__":
     pygame.init()
     pygame.display.set_caption('Breaker')
-    pygame.display.set_icon(pygame.image.load('assets/image/ball.ico'))
+    pygame.display.set_icon(pygame.image.load(resource_path(r'assets\image\ball.ico')))
     screen: pygame.surface.Surface = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     new_game = game(screen)
     new_game.start()
