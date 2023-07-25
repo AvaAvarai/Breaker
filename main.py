@@ -9,7 +9,7 @@ WIN_WIDTH = 480
 WIN_HEIGHT = 640
 UI_HEIGHT = 45
 
-def resource_path(relative_path):
+def resource_path(relative_path) -> str:
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
@@ -84,9 +84,7 @@ class game:
         self.fg_font_color1: tuple[int, int, int] = (255, 0, 0)
         self.fg_font_color2: tuple[int, int, int] = (255, 255, 255)
 
-        self.ball_dir_x: int = 1
-        self.ball_dir_y: int = 1
-        self.ball_ang = 0
+        self.ball_dir = [1, 1]
         
         self.dt = 0
         self.player_step: int = 300
@@ -149,7 +147,7 @@ class game:
                     else:
                         block[3] -= 1
                     self.score += 10 * self.level
-                    self.ball_dir_y *= -1
+                    self.ball_dir[1] *= -1
                     if len(self.bricks) == 0: # new level
                         self.level += 1
                         play_level_music(self.level)
@@ -159,9 +157,7 @@ class game:
                         self.ball_pos = default_ball_pos()
                         self.player_step: int = 300
                         self.ball_step: int = 350
-                        self.ball_dir_x = 1
-                        self.ball_dir_y = 1
-                        self.ball_ang = 0
+                        self.ball_dir = [1, 1]
                     if self.score > self.highscore: # new highscore
                         highscore = self.score
                         file = open('highscore', 'wb')
@@ -214,33 +210,31 @@ class game:
                     self.ball_pos = default_ball_pos()
                     self.player_step: int = 300
                     self.ball_step: int = 350
-                    self.ball_dir_x = 1
-                    self.ball_dir_y = 1
-                    self.ball_ang = 0
+                    self.ball_dir = [1, 1]
                 else:
                     pygame.mixer.Sound.play(pygame.mixer.Sound(resource_path(r'assets\audio\crash.wav')))
                     self.__init__(self.screen)
 
-            if self.ball_pos.centerx < 15:
-                self.ball_dir_x *= -1
-            elif self.ball_pos.centerx > WIN_WIDTH - 15:
-                self.ball_dir_x *= -1
+            if self.ball_pos.colliderect(pygame.rect.Rect(4, UI_HEIGHT, 1, WIN_HEIGHT - UI_HEIGHT)):
+                self.ball_dir[0] *= -1
+            elif self.ball_pos.colliderect(pygame.rect.Rect(WIN_WIDTH - 4, UI_HEIGHT, 1, WIN_HEIGHT - UI_HEIGHT)):
+                self.ball_dir[0] *= -1
             
-            if self.ball_pos.centery < UI_HEIGHT + 10:
-                self.ball_dir_y *= -1
+            if self.ball_pos.colliderect(pygame.rect.Rect(0, UI_HEIGHT + 4, WIN_WIDTH, 1)):
+                self.ball_dir[1] *= -1
             
             # --- BALL\PLAYER COLLIDE ---
             if self.ball_pos.colliderect(self.player_pos):
-                self.ball_dir_y = -1
-                self.ball_dir_x = 1
+                self.ball_dir[1] = -1
+                self.ball_dir[0] = 1
                 if self.ball_pos.centerx < self.player_pos.centerx:
-                    self.ball_ang = -(self.player_pos.centerx - self.ball_pos.centerx)
+                    self.ball_dir[0] += -(self.player_pos.centerx - self.ball_pos.centerx)
                 elif self.ball_pos.centerx > self.player_pos.centerx:
-                    self.ball_ang = (self.ball_pos.centerx - self.player_pos.centerx)
+                    self.ball_dir[0] += (self.ball_pos.centerx - self.player_pos.centerx)
                     
             # --- BALL UPDATE ---
-            y = self.ball_step * self.dt * self.ball_dir_y
-            x = 10 * self.ball_ang * self.dt * self.ball_dir_x
+            y = self.ball_step * self.dt * self.ball_dir[1]
+            x = 10 * self.dt * self.ball_dir[0]
             self.ball_pos = self.ball_pos.move(x, y)
             
             # --- INPUT ---
