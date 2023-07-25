@@ -21,11 +21,8 @@ Collect powerups:
 Break bricks and clear levels for points.
 
 ## How to build
-Requires cx_Freeze package.  
-- To build executable: `python pack_executable.py build`
-- To build installer: `python pack_executable.py bdist_msi`
-
-You may need to replace python with your systems python command if that differs.
+Requires pyinstaller package.  
+- To build executable: `pyinstaller Breaker.spec`
 
 ## Goals
 - more powerup types
