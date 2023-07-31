@@ -223,6 +223,14 @@ class game:
             if self.ball_pos.colliderect(pygame.rect.Rect(0, UI_HEIGHT + 4, WIN_WIDTH, 1)):
                 self.ball_dir[1] *= -1
             
+            if self.ball_pos.centerx < 0:
+                self.ball_pos.move(0, self.ball_pos.centery)
+            elif self.ball_pos.centerx > WIN_WIDTH:
+                self.ball_pos.move(WIN_WIDTH, self.ball_pos.centery)
+            
+            if self.ball_pos.centery > WIN_HEIGHT:
+                self.ball_pos.move(self.ball_pos.centerx, WIN_HEIGHT)
+            
             # --- BALL\PLAYER COLLIDE ---
             if self.ball_pos.colliderect(self.player_pos):
                 self.ball_dir[1] = -1
